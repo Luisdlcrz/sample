@@ -58,13 +58,6 @@ for key, value in fundamentals.items():
 # Technical Analysis
 st.write("## Technical Analysis:")
 
-# Handle NaN values (replace with previous valid value)
-data['Close'].fillna(method='ffill', inplace=True)
-
-# Calculate Moving Averages
-data['MA20'] = data['Close'].rolling(window=20).mean()
-data['MA50'] = data['Close'].rolling(window=50).mean()
-
 data = yf.download(symbol,start=sdate,end=edate)
 if data is not None:
   st.write(data.describe())
