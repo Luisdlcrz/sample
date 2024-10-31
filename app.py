@@ -24,20 +24,6 @@ with col1:
 with col2:
     edate = st.date_input('End Date',value=datetime.date.today())
 
-# Company Information Dropdown
-company_info_options = [
-    "Name", "Symbol", "Website", "Industry", "Sector", "Business Summary"
-]  # Add more options as needed
-
-selected_info = st.sidebar.selectbox("Company Information", company_info_options)
-
-# Display the selected company information
-if selected_info:
-    info_value = stock.info.get(
-        selected_info.lower().replace(" ", ""), "N/A"  # Adjust key if needed
-    )
-    st.sidebar.write(f"{selected_info}: {info_value}")
-
 stock = yf.Ticker(symbol)
 if stock is not None:
   # Display company's basics
@@ -51,6 +37,25 @@ if data is not None:
   st.line_chart(data['Close'],x_label="Date",y_label="Close")
 else:
     st.error("Failed to fetch historical data.")
+
+# Company Information Menu
+st.sidebar.markdown("## Company Information")  # Add a heading
+
+# Create a dictionary to store company information and corresponding keys
+company_info_dict = {
+    "Name": "longName",
+    "Symbol": "symbol",
+    "Website": "website",
+    "Industry": "industry",
+    "Sector": "sector",
+    "Business Summary": "longBusinessSummary"
+    # Add more information fields as needed
+}
+
+# Display company information using a loop
+for info_name, info_key in company_info_dict.items():
+    info_value = stock.info.get(info_key, "N/A")
+    st.sidebar.write(f"{info_name}: {info_valu
 
 # Display fundamental data
 st.write("## Fundamental Data:")
