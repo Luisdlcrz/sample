@@ -54,30 +54,3 @@ fundamentals = {
 
 for key, value in fundamentals.items():
     st.write(f"{key}: {value}")
-
-# Technical Analysis
-st.write("## Technical Analysis:")
-
-data = yf.download(symbol,start=sdate,end=edate)
-if data is not None:
-  st.write(data.describe())
-  st.line_chart(data['Close'],x_label="Date",y_label="Close")
-  data = data.reset_index() # Resetting index
-  # Calculate Moving Averages
-  data['MA20'] = data['Close'].rolling(window=20).mean()  # 20-day MA
-  data['MA50'] = data['Close'].rolling(window=50).mean()  # 50-day MA
-
-  # Calculate RSI (Relative Strength Index)
-  delta = data['Close'].diff()
-  gain = (delta.where(delta > 0, 0)).fillna(0)
-  loss = (-delta.where(delta < 0, 0)).fillna(0)
-  avg_gain = gain.rolling(window=14).mean()
-  avg_loss = loss.rolling(window=14).mean()
-  rs = avg_gain / avg_loss
-  rsi = 100 - (100 / (1 + rs))
-  data['RSI'] = rsi
-
-  st.line_chart(data[['Close', 'MA20', 'MA50']])  # Plot Close, MA20, MA50
-  st.line_chart(data['RSI'])  # Plot RSI  
-else:
-    st.error("Failed to fetch historical data.")
