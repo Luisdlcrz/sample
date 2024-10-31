@@ -23,21 +23,6 @@ with col1:
     sdate = st.date_input('Start Date',value=datetime.date(2024,1,1))
 with col2:
     edate = st.date_input('End Date',value=datetime.date.today())
-with col3: 
-    st.write("## Company Information:")
-    company_info = {
-    "Name": stock.info.get('longName', 'N/A'),
-    "Symbol": stock.info.get('symbol', 'N/A'),
-    "Website": stock.info.get('website', 'N/A'),
-    "Industry": stock.info.get('industry', 'N/A'),
-    "Sector": stock.info.get('sector', 'N/A'),
-    "Business Summary": stock.info.get('longBusinessSummary', 'N/A')
-    # Add more information as needed
-
-    for key, value in company_info.items():
-    st.write(f"{key}: {value}")
-
-st.title(f"{symbol}")
 
 stock = yf.Ticker(symbol)
 if stock is not None:
