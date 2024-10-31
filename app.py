@@ -2,6 +2,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import datetime
 import plotly.graph_objs as go
+import pandas as pd
 
 import appdirs as ad
 ad.user_cache_dir = lambda *args: "/tmp"
