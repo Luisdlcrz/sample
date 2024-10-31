@@ -65,5 +65,16 @@ data['Close'].fillna(method='ffill', inplace=True)
 data['MA20'] = data['Close'].rolling(window=20).mean()
 data['MA50'] = data['Close'].rolling(window=50).mean()
 
-st.write(f"Current RSI: {data['RSI'].iloc[-1]}")  # Display current RSI
-st.dataframe(data[['Close', 'MA20', 'MA50', 'RSI']].tail(10))  # Display last 10 rows
+data.fillna(method='ffill', inplace=True)
+
+# Display Results
+try:
+    st.line_chart(data[['Close', 'MA20', 'MA50']])
+    st.line_chart(data['RSI'])
+
+    st.write("### Key Indicators:")
+    st.metric("RSI", value=data['RSI'].iloc[-1], delta=data['RSI'].iloc[-1] - data['RSI'].iloc[-2])
+    st.write(f"Current MA20: {data['MA20'].iloc[-1]:.2f}")
+    st.write(f"Current MA50: {data['MA50'].iloc[-1]:.2f}")
+except Exception as e:
+    st.error(f"An error occurred during technical analysis: {e}")
