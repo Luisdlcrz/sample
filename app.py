@@ -50,9 +50,7 @@ fundamentals = {
     "Forward P/E": stock.info.get('forwardPE', 'N/A'),
     "Dividend Yield": stock.info.get('dividendYield', 'N/A'),
     "Earnings Growth": stock.info.get('earningsGrowth', 'N/A')
-    # Add more fundamentals as needed
 }
-
 
 # Technical Analysis
 st.write("## Technical Analysis:")
