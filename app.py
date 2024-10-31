@@ -7,6 +7,8 @@ import appdirs as ad
 ad.user_cache_dir = lambda *args: "/tmp"
 import yfinance as yf
 
+import numpy as np
+
 # Specify title and logo for the webpage.
 # Set up your web app
 st.set_page_config(layout="wide", page_title="WebApp_Demo")
@@ -36,3 +38,11 @@ if data is not None:
   st.line_chart(data['Close'],x_label="Date",y_label="Close")
 else:
     st.error("Failed to fetch historical data.")
+    
+# Calculate and display growth estimate 
+close_prices = data['Close']
+growth_rate = (close_prices[-1] - close_prices[0]) / close_prices[0]
+annualized_growth = (1 + growth_rate) ** (365 / len(close_prices)) - 1  
+
+st.write(f"## Estimated Annualized Growth:")
+st.write(f"{annualized_growth:.2%}") 
