@@ -66,4 +66,4 @@ data['MA20'] = data['Close'].rolling(window=20).mean()
 data['MA50'] = data['Close'].rolling(window=50).mean()
 
 st.write(f"Current RSI: {data['RSI'].iloc[-1]}")  # Display current RSI
-   st.dataframe(data[['Close', 'MA20', 'MA50', 'RSI']].tail(10))  # Display last 10 rows
+st.dataframe(data[['Close', 'MA20', 'MA50', 'RSI']].tail(10))  # Display last 10 rows
