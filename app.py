@@ -67,14 +67,13 @@ data['MA50'] = data['Close'].rolling(window=50).mean()
 
 data.fillna(method='ffill', inplace=True)
 
-# Display Results
 try:
-    st.line_chart(data[['Close', 'MA20', 'MA50']])
-    st.line_chart(data['RSI'])
+    st.line_chart(data[[('Adj Close', symbol), ('MA20', symbol), ('MA50', symbol)]]) 
+    st.line_chart(data[('RSI', symbol)]) 
 
     st.write("### Key Indicators:")
-    st.metric("RSI", value=data['RSI'].iloc[-1], delta=data['RSI'].iloc[-1] - data['RSI'].iloc[-2])
-    st.write(f"Current MA20: {data['MA20'].iloc[-1]:.2f}")
-    st.write(f"Current MA50: {data['MA50'].iloc[-1]:.2f}")
+    st.metric("RSI", value=data[('RSI', symbol)].iloc[-1], delta=data[('RSI', symbol)].iloc[-1] - data[('RSI', symbol)].iloc[-2])
+    st.write(f"Current MA20: {data[('MA20', symbol)].iloc[-1]:.2f}")
+    st.write(f"Current MA50: {data[('MA50', symbol)].iloc[-1]:.2f}")
 except Exception as e:
     st.error(f"An error occurred during technical analysis: {e}")
