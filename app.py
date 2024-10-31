@@ -39,20 +39,19 @@ if data is not None:
 else:
     st.error("Failed to fetch historical data.")
 
-if data.empty:
-    st.error("No data found for the specified stock symbol.")
-else:
-    close_prices = data['Close']
-    if not np.issubdtype(close_prices.dtype, np.number):
-        st.error("Close price data is not numeric.")
-    else:
-        if close_prices[0] == 0:
-            st.warning("Initial closing price is 0. Using the second value for calculation.")
-            growth_rate = (close_prices[-1] - close_prices[1]) / close_prices[1]  
-        else:
-            growth_rate = (close_prices[-1] - close_prices[0]) / close_prices[0]
+# Display fundamental data
+st.write("## Fundamental Data:")
 
-        annualized_growth = (1 + growth_rate) ** (365 / len(close_prices)) - 1  
+# Create a dictionary of fundamental data to display
+fundamentals = {
+    "Market Cap": stock.info.get('marketCap', 'N/A'),
+    "Trailing P/E": stock.info.get('trailingPE', 'N/A'),
+    "Forward P/E": stock.info.get('forwardPE', 'N/A'),
+    "Dividend Yield": stock.info.get('dividendYield', 'N/A'),
+    "Earnings Growth": stock.info.get('earningsGrowth', 'N/A')
+    # Add more fundamentals as needed
+}
 
-        st.write(f"## Estimated Annualized Growth:")
-        st.write(f"{annualized_growth:.2%}") 
+# Display the fundamentals in a table format
+for key, value in fundamentals.items():
+    st.write(f"{key}: {value}")
