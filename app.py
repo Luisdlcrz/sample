@@ -67,13 +67,26 @@ data['MA50'] = data['Close'].rolling(window=50).mean()
 
 data.fillna(method='ffill', inplace=True)
 
-try:
-    st.line_chart(data[[('Adj Close', symbol), ('MA20', symbol), ('MA50', symbol)]]) 
-    st.line_chart(data[('RSI', symbol)]) 
+data = yf.download(symbol,start=sdate,end=edate)
+if data is not None:
+  st.write(data.describe())
+  st.line_chart(data['Close'],x_label="Date",y_label="Close")
+  data = data.reset_index() # Resetting index
+  # Calculate Moving Averages
+  data['MA20'] = data['Close'].rolling(window=20).mean()  # 20-day MA
+  data['MA50'] = data['Close'].rolling(window=50).mean()  # 50-day MA
 
-    st.write("### Key Indicators:")
-    st.metric("RSI", value=data[('RSI', symbol)].iloc[-1], delta=data[('RSI', symbol)].iloc[-1] - data[('RSI', symbol)].iloc[-2])
-    st.write(f"Current MA20: {data[('MA20', symbol)].iloc[-1]:.2f}")
-    st.write(f"Current MA50: {data[('MA50', symbol)].iloc[-1]:.2f}")
-except Exception as e:
-    st.error(f"An error occurred during technical analysis: {e}")
+  # Calculate RSI (Relative Strength Index)
+  delta = data['Close'].diff()
+  gain = (delta.where(delta > 0, 0)).fillna(0)
+  loss = (-delta.where(delta < 0, 0)).fillna(0)
+  avg_gain = gain.rolling(window=14).mean()
+  avg_loss = loss.rolling(window=14).mean()
+  rs = avg_gain / avg_loss
+  rsi = 100 - (100 / (1 + rs))
+  data['RSI'] = rsi
+
+  st.line_chart(data[['Close', 'MA20', 'MA50']])  # Plot Close, MA20, MA50
+  st.line_chart(data['RSI'])  # Plot RSI  
+else:
+    st.error("Failed to fetch historical data.")
