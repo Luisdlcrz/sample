@@ -52,6 +52,9 @@ fundamentals = {
     "Earnings Growth": stock.info.get('earningsGrowth', 'N/A')
 }
 
+for key, value in fundamentals.items():
+    st.write(f"{key}: {value}")
+
 # Technical Analysis
 st.write("## Technical Analysis:")
 
