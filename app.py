@@ -38,7 +38,15 @@ if data is not None:
   st.line_chart(data['Close'],x_label="Date",y_label="Close")
 else:
     st.error("Failed to fetch historical data.")
-    
+
+# Display the columns (features) available in the data
+st.write("## Available Data Columns:")
+st.write(data.columns)
+
+# Show the first few rows of the data for a preview
+st.write("## Data Preview (First 5 rows):")
+st.write(data.head())
+
 # Calculate and display growth estimate 
 close_prices = data['Close']
 growth_rate = (close_prices[-1] - close_prices[0]) / close_prices[0]
