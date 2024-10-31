@@ -9,7 +9,7 @@ import yfinance as yf
 
 # Specify title and logo for the webpage.
 # Set up your web app
-st.set_page_config(layout="wide", page_title="Luis_Demo")
+st.set_page_config(layout="wide", page_title="WebApp_Demo")
 
 # Sidebar
 st.sidebar.title("Input")
@@ -33,7 +33,6 @@ else:
 
 data = yf.download(symbol,start=sdate,end=edate)
 if data is not None:
-  st.write(data.describe())
   st.line_chart(data['Close'],x_label="Date",y_label="Close")
 else:
     st.error("Failed to fetch historical data.")
