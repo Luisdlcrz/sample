@@ -24,6 +24,20 @@ with col1:
 with col2:
     edate = st.date_input('End Date',value=datetime.date.today())
 
+# Company Information Dropdown
+company_info_options = [
+    "Name", "Symbol", "Website", "Industry", "Sector", "Business Summary"
+]  # Add more options as needed
+
+selected_info = st.sidebar.selectbox("Company Information", company_info_options)
+
+# Display the selected company information
+if selected_info:
+    info_value = stock.info.get(
+        selected_info.lower().replace(" ", ""), "N/A"  # Adjust key if needed
+    )
+    st.sidebar.write(f"{selected_info}: {info_value}")
+
 stock = yf.Ticker(symbol)
 if stock is not None:
   # Display company's basics
