@@ -38,20 +38,6 @@ if data is not None:
 else:
     st.error("Failed to fetch historical data.")
 
-# Company Information Menu
-st.sidebar.markdown("## Company Information")  # Add a heading
-
-# Create a dictionary to store company information and corresponding keys
-company_info_dict = {
-    "Name": "longName",
-    "Symbol": "symbol",
-    "Website": "website",
-    "Industry": "industry",
-    "Sector": "sector",
-    "Business Summary": "longBusinessSummary"
-    # Add more information fields as needed
-}
-
 # Display company information using a loop
 for info_name, info_key in company_info_dict.items():
     info_value = stock.info.get(info_key, "N/A")
