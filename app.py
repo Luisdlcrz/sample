@@ -65,8 +65,6 @@ data['Close'].fillna(method='ffill', inplace=True)
 data['MA20'] = data['Close'].rolling(window=20).mean()
 data['MA50'] = data['Close'].rolling(window=50).mean()
 
-data.fillna(method='ffill', inplace=True)
-
 data = yf.download(symbol,start=sdate,end=edate)
 if data is not None:
   st.write(data.describe())
