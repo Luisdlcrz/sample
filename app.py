@@ -24,6 +24,8 @@ with col1:
 with col2:
     edate = st.date_input('End Date',value=datetime.date.today())
 
+st.title(f"{symbol}")
+
 stock = yf.Ticker(symbol)
 if stock is not None:
   # Display company's basics
