@@ -39,18 +39,20 @@ if data is not None:
 else:
     st.error("Failed to fetch historical data.")
 
-# Display the columns (features) available in the data
-st.write("## Available Data Columns:")
-st.write(data.columns)
+if data.empty:
+    st.error("No data found for the specified stock symbol.")
+else:
+    close_prices = data['Close']
+    if not np.issubdtype(close_prices.dtype, np.number):
+        st.error("Close price data is not numeric.")
+    else:
+        if close_prices[0] == 0:
+            st.warning("Initial closing price is 0. Using the second value for calculation.")
+            growth_rate = (close_prices[-1] - close_prices[1]) / close_prices[1]  
+        else:
+            growth_rate = (close_prices[-1] - close_prices[0]) / close_prices[0]
 
-# Show the first few rows of the data for a preview
-st.write("## Data Preview (First 5 rows):")
-st.write(data.head())
+        annualized_growth = (1 + growth_rate) ** (365 / len(close_prices)) - 1  
 
-# Calculate and display growth estimate 
-close_prices = data['Close']
-growth_rate = (close_prices[-1] - close_prices[0]) / close_prices[0]
-annualized_growth = (1 + growth_rate) ** (365 / len(close_prices)) - 1  
-
-st.write(f"## Estimated Annualized Growth:")
-st.write(f"{annualized_growth:.2%}") 
+        st.write(f"## Estimated Annualized Growth:")
+        st.write(f"{annualized_growth:.2%}") 
