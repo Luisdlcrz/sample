@@ -65,5 +65,5 @@ data['Close'].fillna(method='ffill', inplace=True)
 data['MA20'] = data['Close'].rolling(window=20).mean()
 data['MA50'] = data['Close'].rolling(window=50).mean()
 
-st.line_chart(data[['Close', 'MA20', 'MA50']])  # Plot Close, MA20, MA50
-   st.line_chart(data['RSI'])  # Plot RSI
+st.write(f"Current RSI: {data['RSI'].iloc[-1]}")  # Display current RSI
+   st.dataframe(data[['Close', 'MA20', 'MA50', 'RSI']].tail(10))  # Display last 10 rows
